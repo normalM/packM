@@ -4,21 +4,25 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "build": "yarn webpack build",
-        "build-nc": "yarn webpack build --env no-client",
-        "build-ns": "yarn webpack build --env no-server",
-        "dev": "yarn webpack watch",
-        "dev-nc": "yarn webpack watch --env no-client",
-        "dev-ns": "yarn webpack watch --env no-server"
+        "build": "yarn webpack build --mode=production",
+        "build:nc": "yarn webpack build --env no-client",
+        "build:ns": "yarn webpack build --env no-server",
+        "dev": "yarn webpack watch --mode=development",
+        "dev:nc": "yarn webpack watch --env no-client --mode=development",
+        "dev:ns": "yarn webpack watch --env no-server --mode=development"
     },
     "dependencies": {
+        "@citizenfx/client": "^2.0.4736-1",
         "child-process-promise": "^2.2.1",
         "clean-webpack-plugin": "^4.0.0",
+        "fivem-js": "^1.5.2",
         "go-build-webpack-plugin": "https://github.com/kittizz/go-build-webpack-plugin.git",
+        "javascript-obfuscator": "^2.19.0",
         "ts-loader": "^9.2.6",
         "typescript": "^4.4.3",
-        "wasm_exec-ts": "^1.0.14",
+        "wasm_exec-ts": "^1.0.19",
         "webpack": "^5.57.1",
+        "webpack-obfuscator": "^3.4.1",
         "webpack-watch-files-plugin": "^1.2.0"
     },
     "devDependencies": {

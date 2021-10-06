@@ -1,4 +1,3 @@
-//@ts-ignore
 import { Load } from "wasm_exec-ts"
 ;(async () => {
     try {
@@ -6,4 +5,4 @@ import { Load } from "wasm_exec-ts"
     } catch (error) {
         console.log(error)
     }
-})()
+})().then()

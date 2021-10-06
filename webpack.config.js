@@ -4,7 +4,33 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const WatchExternalFilesPlugin = require("webpack-watch-files-plugin").default
 const exec = require("child-process-promise").exec
 const path = require("path")
+const WebpackObfuscator = require("webpack-obfuscator")
+let config = {
+    cache: false,
+    module: {
+        rules: [
+            {
+                test: /\.ts$/,
+                loader: "ts-loader",
+                exclude: /node_modules/,
+            },
+        ],
+    },
 
+    performance: {
+        hints: false,
+        maxEntrypointSize: 512000,
+        maxAssetSize: 512000,
+    },
+
+    resolve: {
+        extensions: [".ts", ".js"],
+        // fallback: { util: require.resolve("util") },
+    },
+    target: ["node"],
+
+    //devtool: 'inline-source-map'
+}
 class WatchRunPlugin {
     apply(compiler) {
         compiler.hooks.done.tapPromise("WatchRun", async (comp) => {
@@ -17,21 +43,43 @@ class WatchRunPlugin {
         })
     }
 }
-module.exports = (env) => {
+module.exports = (env, argv) => {
+    config.mode = argv.mode == "production" ? "production" : "development"
+
     let goBuild = []
-    let ent = {}
+    config.entry = {}
+    config.plugins = [
+        new webpack.ProgressPlugin(),
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: ["**/*.js", "**/*.txt"],
+        }),
+        // new webpack.DefinePlugin({
+        //     "process.env.NODE_DEBUG": JSON.stringify(process.env.DEBUG),
+        //     "global.GENTLY": false,
+        //     // "process.env.DEBUG": JSON.stringify(process.env.DEBUG),
+        // }),
+        new webpack.BannerPlugin({
+            include: "server",
+            banner: "var __dirname = GetResourcePath(GetCurrentResourceName());\n",
+            raw: true,
+        }),
+        new WatchExternalFilesPlugin({
+            files: ["./src/**/*.ts", "./src/**/*.go"],
+        }),
+        new WatchRunPlugin(),
+    ]
     if (!env["no-client"]) {
-        ent["client"] = "./src/server/loader.ts"
-        goBuild.push({
-            env: { ...process.env, GOOS: "js", GOARCH: "wasm" },
-            cwd: __dirname,
-            outputPath: __dirname + "/dist/client/go.wasm",
-            resourcePath: __dirname + "/src/client/",
-            mode: "ignore",
-        })
+        config.entry["client"] = "./src/client/loader.ts"
+        // goBuild.push({
+        //     env: { ...process.env, GOOS: "js", GOARCH: "wasm" },
+        //     cwd: __dirname,
+        //     outputPath: __dirname + "/dist/client/go.wasm",
+        //     resourcePath: __dirname + "/src/client/",
+        //     mode: "ignore",
+        // })
     }
     if (!env["no-server"]) {
-        ent["server"] = "./src/server/loader.ts"
+        config.entry["server"] = "./src/server/loader.ts"
         goBuild.push({
             env: { ...process.env, GOOS: "js", GOARCH: "wasm" },
             cwd: __dirname,
@@ -40,49 +88,36 @@ module.exports = (env) => {
             mode: "ignore",
         })
     }
-    return {
-        mode: "production",
-        entry: ent,
-        module: {
-            rules: [
-                {
-                    test: /\.ts$/,
-                    loader: "ts-loader",
-                    exclude: /node_modules/,
-                    options: {},
-                },
-            ],
-        },
-
-        plugins: [
-            new webpack.ProgressPlugin(),
-            new CleanWebpackPlugin({
-                cleanOnceBeforeBuildPatterns: ["**/*.js"],
-            }),
+    if (goBuild.length > 0) {
+        config.plugins.push(
             new GoBuildWebpackPlugin({
                 inject: true,
                 build: goBuild,
-            }),
-            new webpack.BannerPlugin({
-                banner: "var __dirname = GetResourcePath(GetCurrentResourceName());\n",
-                raw: true,
-            }),
-            new WatchExternalFilesPlugin({
-                files: ["./src/**/*.ts", "./src/**/*.go"],
-            }),
-            new WatchRunPlugin(),
-        ],
-        optimization: {
-            minimize: true,
-        },
-        resolve: {
-            extensions: [".ts", ".js"],
-        },
-        target: "node",
-        output: {
-            filename: "[name]/[name].[fullhash].js",
-            path: __dirname + "/dist/",
-        },
-        //devtool: 'inline-source-map'
+            })
+        )
     }
+
+    if (argv.mode === "development") {
+    }
+
+    if (argv.mode === "production") {
+        config.plugins.push(
+            new WebpackObfuscator(
+                { rotateStringArray: true, reservedStrings: ["s*"] },
+                []
+            )
+        )
+    }
+    config.optimization = {
+        minimize: argv.mode === "production" ? true : false,
+        moduleIds: argv.mode === "production" ? "deterministic" : "named",
+    }
+    config.output = {
+        filename:
+            argv.mode === "production"
+                ? "[name]/[name].[fullhash].js"
+                : "[name]/[name].js",
+        path: __dirname + "/dist/",
+    }
+    return config
 }

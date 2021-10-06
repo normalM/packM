@@ -1,10 +1,19 @@
-// //@ts-ignore
-// import { Load } from "wasm_exec-ts"
-// ;(async () => {
-//     try {
-//         await Load(`${__dirname}/dist/server/go.wasm`)
-//     } catch (error) {
-//         console.log(error)
-//     }
-// })()
-console.log("asd")
+import * as Cfx from "fivem-js"
+
+RegisterCommand(
+    "adder",
+    async (source: number, args: string[]) => {
+        const vehicle = await Cfx.World.createVehicle(
+            new Cfx.Model("adder"),
+            new Cfx.Vector3(1, 2, 3),
+            4
+        )
+        Cfx.Game.PlayerPed.setIntoVehicle(vehicle, Cfx.VehicleSeat.Driver)
+    },
+    false
+)
+
+console.log("LOADEDx", new Date())
+on(`onClientResourceStart`, (resource: any) => {
+    console.log("WOW", resource)
+})
