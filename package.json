@@ -1,0 +1,34 @@
+{
+    "name": "pack-m",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "build": "yarn webpack build",
+        "build-nc": "yarn webpack build --env no-client",
+        "build-ns": "yarn webpack build --env no-server",
+        "dev": "yarn webpack watch",
+        "dev-nc": "yarn webpack watch --env no-client",
+        "dev-ns": "yarn webpack watch --env no-server"
+    },
+    "dependencies": {
+        "child-process-promise": "^2.2.1",
+        "clean-webpack-plugin": "^4.0.0",
+        "go-build-webpack-plugin": "https://github.com/kittizz/go-build-webpack-plugin.git",
+        "ts-loader": "^9.2.6",
+        "typescript": "^4.4.3",
+        "wasm_exec-ts": "^1.0.14",
+        "webpack": "^5.57.1",
+        "webpack-watch-files-plugin": "^1.2.0"
+    },
+    "devDependencies": {
+        "@types/node": "^16.10.2",
+        "webpack-cli": "^4.8.0"
+    },
+    "browser": {
+        "fs": false,
+        "path": false,
+        "os": false,
+        "perf_hooks": false
+    }
+}
