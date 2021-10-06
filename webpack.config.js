@@ -80,7 +80,7 @@ module.exports = (env) => {
         },
         target: "node",
         output: {
-            filename: "[name]/[name]-[fullhash].js",
+            filename: "[name]/[name].[fullhash].js",
             path: __dirname + "/dist/",
         },
         //devtool: 'inline-source-map'
