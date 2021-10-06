@@ -12,4 +12,4 @@ packM is fivem resource compiler for golang with the power of golang+typescript+
 
 ### TODO
 
--   [ ] support golang on client (with gopherjs but only work on linux host )
+-   [ ] support golang on client (with gopherjs but only work on linux build host such as wsl2, docker, etc...)
