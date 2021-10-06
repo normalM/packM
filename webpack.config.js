@@ -29,7 +29,9 @@ let config = {
         // fallback: { util: require.resolve("util") },
     },
     target: ["node"],
-
+    experiments: {
+        topLevelAwait: true,
+    },
     //devtool: 'inline-source-map'
 }
 class WatchRunPlugin {
