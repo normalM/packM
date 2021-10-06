@@ -1,11 +1,15 @@
-const GoBuildWebpackPlugin = require("go-build-webpack-plugin").default
 const webpack = require("webpack") // to access built-in plugins
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const WatchExternalFilesPlugin = require("webpack-watch-files-plugin").default
 const exec = require("child-process-promise").exec
 const path = require("path")
 const WebpackObfuscator = require("webpack-obfuscator")
+const process = require("process")
+
+// const WebpackBundleAnalyzer = require("webpack-bundle-analyzer")
+
 const cfg = require("./package.json")
+let goBuild = []
 let config = {
     cache: false,
     module: {
@@ -36,9 +40,8 @@ let config = {
 }
 class WatchRunPlugin {
     apply(compiler) {
-        compiler.hooks.done.tapPromise("WatchRun", async (comp) => {
+        compiler.hooks.done.tap("WatchRun", async (comp) => {
             if (!cfg.rcon.autorestart) return
-            console.log("\n====================")
             let result = await exec(
                 `${path.join(
                     __dirname,
@@ -47,14 +50,46 @@ class WatchRunPlugin {
                     cfg.rcon.password
                 }`
             )
-            console.log(result.stdout, "====================")
+            console.log("\n", result.stdout)
         })
+        compiler.hooks.beforeRun.tap(
+            "GoBuildWebpackPlugin",
+            (compilation, cb) => {
+                if (goBuild.length == 0) return cb()
+                BuildGO().catch((err) => {
+                    return cb(err)
+                })
+                cb()
+            }
+        )
+        compiler.hooks.watchRun.tapPromise(
+            "GoBuildWebpackPlugin",
+            async (compilation) => {
+                try {
+                    await BuildGO()
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        )
     }
+}
+const BuildGO = async () => {
+    goBuild.forEach(async (b, _) => {
+        let cmd = `go build -o ${b.outputPath} ${b.resourcePath}` // Can be a go file or a package
+        try {
+            exec(cmd, {
+                cwd: process.cwd() || "",
+                env: b.env,
+            })
+        } catch (error) {
+            return error
+        }
+    })
 }
 module.exports = (env, argv) => {
     config.mode = argv.mode == "production" ? "production" : "development"
 
-    let goBuild = []
     config.entry = {}
     config.plugins = [
         new webpack.ProgressPlugin(),
@@ -96,14 +131,14 @@ module.exports = (env, argv) => {
             mode: "ignore",
         })
     }
-    if (goBuild.length > 0) {
-        config.plugins.push(
-            new GoBuildWebpackPlugin({
-                inject: true,
-                build: goBuild,
-            })
-        )
-    }
+    // if (goBuild.length > 0) {
+    //     config.plugins.push(
+    //         new GoBuildWebpackPlugin({
+    //             inject: true,
+    //             build: goBuild,
+    //         })
+    //     )
+    // }
 
     if (argv.mode === "development") {
     }
@@ -115,6 +150,7 @@ module.exports = (env, argv) => {
                 []
             )
         )
+        // config.plugins.push(new WebpackBundleAnalyzer.BundleAnalyzerPlugin())
     }
     config.optimization = {
         minimize: argv.mode === "production" ? true : false,

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"syscall/js"
 )
 
@@ -18,7 +17,7 @@ func main() {
 		js.FuncOf(funcx),
 		false)
 
-	println("[]wasm loaded")
+	print("wasm loaded.")
 	<-c
 }
 
@@ -29,8 +28,13 @@ func funcx(this js.Value, inputs []js.Value) interface{} {
 		js.ValueOf(-1),
 		inputs[1].JSValue(),
 	)
-	println("DO!!!!!!!")
-	println(fmt.Sprintln(inputs[1]))
+	print("DO!!!!!!!")
+	// println(fmt.Sprintln(inputs[1]))
 
 	return nil
+}
+
+func print(arg ...interface{}) {
+
+	global.Get("console").Call("log", arg...)
 }
