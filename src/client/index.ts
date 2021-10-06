@@ -13,7 +13,7 @@ RegisterCommand(
     false
 )
 
-console.log("LOADEDx", new Date())
 on(`onClientResourceStart`, (resource: any) => {
+    console.log("LOADEDx", new Date())
     console.log("WOW", resource)
 })

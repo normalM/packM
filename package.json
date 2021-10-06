@@ -34,5 +34,10 @@
         "path": false,
         "os": false,
         "perf_hooks": false
+    },
+    "rcon": {
+        "addr": "localhost:30120",
+        "password": "UC1dZ6mN72LFLyElhM",
+        "autorestart": true
     }
 }

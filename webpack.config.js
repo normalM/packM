@@ -5,6 +5,7 @@ const WatchExternalFilesPlugin = require("webpack-watch-files-plugin").default
 const exec = require("child-process-promise").exec
 const path = require("path")
 const WebpackObfuscator = require("webpack-obfuscator")
+const cfg = require("./package.json")
 let config = {
     cache: false,
     module: {
@@ -34,12 +35,17 @@ let config = {
 class WatchRunPlugin {
     apply(compiler) {
         compiler.hooks.done.tapPromise("WatchRun", async (comp) => {
+            if (!cfg.rcon.autorestart) return
+            console.log("\n====================")
             let result = await exec(
-                `icecon -c "restart ${path.basename(
-                    __dirname
-                )}" localhost:30120 UC1dZ6mN72LFLyElhM`
+                `${path.join(
+                    __dirname,
+                    `/bin/icecon_${process.platform}_amd64`
+                )} -c "restart ${path.basename(__dirname)}" ${cfg.rcon.addr} ${
+                    cfg.rcon.password
+                }`
             )
-            console.log(result.stdout)
+            console.log(result.stdout, "====================")
         })
     }
 }
@@ -69,7 +75,7 @@ module.exports = (env, argv) => {
         new WatchRunPlugin(),
     ]
     if (!env["no-client"]) {
-        config.entry["client"] = "./src/client/loader.ts"
+        config.entry["client"] = "./src/client/index.ts"
         // goBuild.push({
         //     env: { ...process.env, GOOS: "js", GOARCH: "wasm" },
         //     cwd: __dirname,
