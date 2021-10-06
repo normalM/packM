@@ -8,6 +8,8 @@ cd project-name
     
 # rename name on package.json to project-name
 code package.json
+yarn install
+yarn build
 ```
 
 #### On Server
