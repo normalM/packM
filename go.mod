@@ -1,3 +1,3 @@
-module test
+module packM
 
 go 1.17

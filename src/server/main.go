@@ -7,7 +7,6 @@ import (
 
 var global = js.Global()
 var c = make(chan bool)
-var cfx cfxClass
 
 func init() {
 
