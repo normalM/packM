@@ -1,6 +1,6 @@
-# packM
+# packM 🧬
 
-packM is fivem resource compiler for golang with the power of golang+typescript+webpack
+packM 🧬 is fivem resource compiler for golang with the power of golang+typescript+webpack
 ```console
 git clone https://github.com/normalM/packM.git
 mv packM project-name
