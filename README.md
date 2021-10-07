@@ -24,5 +24,5 @@ yarn build
 ##### TODO
 
 -   [ ] support golang on client (with gopherjs but only work on linux build host such as wsl2, docker, etc...)
--   [ ] packM-cli is CLI for compiler project anywhere
+-   [ ] packM-cli is CLI for initialize, compiler project anywhere
 -   [ ] packm.json config project in one file
