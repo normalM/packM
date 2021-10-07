@@ -41,6 +41,7 @@ let config = {
 class WatchRunPlugin {
     apply(compiler) {
         compiler.hooks.done.tap("WatchRun", async (comp) => {
+            await BuildGO()
             if (!cfg.rcon.autorestart) return
             let result = await exec(
                 `${path.join(
@@ -62,16 +63,16 @@ class WatchRunPlugin {
                 cb()
             }
         )
-        compiler.hooks.watchRun.tapPromise(
-            "GoBuildWebpackPlugin",
-            async (compilation) => {
-                try {
-                    await BuildGO()
-                } catch (error) {
-                    console.log(error)
-                }
-            }
-        )
+        // compiler.hooks.watchRun.tapPromise(
+        //     "GoBuildWebpackPlugin",
+        //     async (compilation) => {
+        //         try {
+        //             await BuildGO()
+        //         } catch (error) {
+        //             console.log(error)
+        //         }
+        //     }
+        // )
     }
 }
 const BuildGO = async () => {

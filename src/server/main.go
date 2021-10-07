@@ -1,40 +1,32 @@
 package main
 
 import (
+	"fmt"
 	"syscall/js"
+
+	cfx "github.com/normalM/citizenfx-go"
 )
 
-var global = js.Global()
 var c = make(chan bool)
 
 func init() {
-
-	global.Call("GetCurrentResourceName")
+	cfx.Print(fmt.Sprintf("wasm %s loaded.", cfx.Server.GetCurrentResourceName()))
 }
 func main() {
 
-	global.Call("RegisterCommand", "tc",
-		js.FuncOf(funcx),
-		false)
+	cfx.Server.RegisterCommand("asd", js.FuncOf(funcx), false)
 
-	print("wasm loaded.")
 	<-c
 }
 
 func funcx(this js.Value, inputs []js.Value) interface{} {
 
-	global.Call("TriggerClientEvent",
+	cfx.TriggerClientEvent(
 		"chat:addMessage",
-		js.ValueOf(-1),
-		inputs[1].JSValue(),
+		-1,
+		"TEST!!",
 	)
-	print("DO!!!!!!!")
-	// println(fmt.Sprintln(inputs[1]))
+	cfx.Print("DO IT!!!!!!!")
 
 	return nil
-}
-
-func print(arg ...interface{}) {
-
-	global.Get("console").Call("log", arg...)
 }
