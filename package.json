@@ -13,6 +13,7 @@
     },
     "dependencies": {
         "@citizenfx/client": "^2.0.4736-1",
+        "@citizenfx/server": "^2.0.4748-1",
         "child-process-promise": "^2.2.1",
         "clean-webpack-plugin": "^4.0.0",
         "fivem-js": "^1.5.2",

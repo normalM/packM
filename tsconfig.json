@@ -35,6 +35,7 @@
         "typeRoots": [] /* Allow multiple folders to be treated as one when resolving modules. */,
         "types": [
             "@citizenfx/client",
+            "@citizenfx/server",
             "node",
             "wasm_exec-ts"
         ] /* Specify type package names to be included without being referenced in a source file. */,
