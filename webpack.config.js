@@ -111,15 +111,12 @@ module.exports = (env, argv) => {
         }),
         new WatchRunPlugin(),
     ]
+
+    if (!env["no-shared"]) {
+        config.entry["shared"] = "./src/shared/index.ts"
+    }
     if (!env["no-client"]) {
         config.entry["client"] = "./src/client/index.ts"
-        // goBuild.push({
-        //     env: { ...process.env, GOOS: "js", GOARCH: "wasm" },
-        //     cwd: __dirname,
-        //     outputPath: __dirname + "/dist/client/go.wasm",
-        //     resourcePath: __dirname + "/src/client/",
-        //     mode: "ignore",
-        // })
     }
     if (!env["no-server"]) {
         config.entry["server"] = "./src/server/loader.ts"

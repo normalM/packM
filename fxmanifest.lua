@@ -7,17 +7,10 @@ version "1.0.0"
 
 client_script "./dist/client/*"
 server_script "./dist/server/*"
--- shared_script "./dist/shared/*"
--- files {
---     "dist/*"
--- }
+shared_script "./dist/shared/*"
+files {
+    "assets/*"
+}
 
-fx_version "adamant"
+fx_version "cerulean"
 games {"gta5"}
-
--- dependencies {
---     "yarn",
---     "webpack"
--- }
-
--- webpack_config "webpack.config.js"
