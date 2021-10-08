@@ -22,6 +22,7 @@ yarn build
 #### On Client
 
 > support typescript
+>
 > support golang (need docker to build)
 
 #### Status
