@@ -3,8 +3,7 @@
 packM 🧬 is fivem resource compiler for golang with the power of golang+typescript+webpack
 
 ```console
-git clone https://github.com/normalM/packM.git
-mv packM {project-name}
+git clone https://github.com/normalM/packM.git {project-name}
 cd {project-name}
 
 # rename name on package.json to {project-name}
