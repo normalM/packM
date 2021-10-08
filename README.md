@@ -17,8 +17,9 @@ yarn build
 > support golang and typescript
 
 #### On Client
-
-> support only typescript
+> support typescript
+> 
+> support golang (need docker to build)
 #### Status
 > ready for make project
 ##### TODO
