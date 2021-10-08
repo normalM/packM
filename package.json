@@ -9,7 +9,11 @@
         "build:ns": "yarn webpack build --env no-server",
         "dev": "yarn webpack watch --mode=development",
         "dev:nc": "yarn webpack watch --env no-client --mode=development",
-        "dev:ns": "yarn webpack watch --env no-server --mode=development"
+        "dev:ns": "yarn webpack watch --env no-server --mode=development",
+        "dev:nd": "yarn webpack watch --env no-shared --mode=development",
+        "dev:nsd": "yarn webpack watch --env no-server --env no-shared --mode=development",
+        "dev:ncd": "yarn webpack watch --env no-client --env no-shared --mode=development",
+        "dev:ncs": "yarn webpack watch --env no-client --env no-server --mode=development"
     },
     "dependencies": {
         "@citizenfx/client": "^2.0.4736-1",

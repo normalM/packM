@@ -41,7 +41,9 @@ let config = {
 class WatchRunPlugin {
     apply(compiler) {
         compiler.hooks.done.tap("WatchRun", async (comp) => {
+            // console.log(new Date())
             await BuildGO()
+            // console.log(new Date())
             if (!cfg.rcon.autorestart) return
             let result = await exec(
                 `${path.join(
@@ -76,17 +78,27 @@ class WatchRunPlugin {
     }
 }
 const BuildGO = async () => {
-    goBuild.forEach(async (b, _) => {
-        let cmd = `go build -o ${b.outputPath} ${b.resourcePath}` // Can be a go file or a package
+    for (const b of goBuild) {
+        console.log("GO", new Date())
+
+        let cmd = `go build -o ${path.resolve(b.outputPath)} ${path.resolve(
+            b.resourcePath
+        )}` // Can be a go file or a package
         try {
-            exec(cmd, {
+            await exec(cmd, {
                 cwd: process.cwd() || "",
                 env: b.env,
             })
         } catch (error) {
             return error
         }
-    })
+        console.log("G2O", new Date())
+    }
+}
+async function asyncForEach(array, callback) {
+    for (let index = 0; index < array.length; index++) {
+        await callback(array[index], index, array)
+    }
 }
 module.exports = (env, argv) => {
     config.mode = argv.mode == "production" ? "production" : "development"
