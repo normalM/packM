@@ -3,5 +3,9 @@ version: '3'
 services:
   build-go:
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: .
+        target: /build

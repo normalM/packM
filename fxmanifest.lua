@@ -5,7 +5,7 @@ version "1.0.0"
 
 -- ui_page "dist/index.html"
 
-client_script "./dist/client/*"
+client_script "./dist/client/*.js"
 server_script "./dist/server/*"
 shared_script "./dist/shared/*"
 files {
