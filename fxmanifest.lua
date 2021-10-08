@@ -14,3 +14,10 @@ files {
 
 fx_version "cerulean"
 games {"gta5"}
+
+dependencies {
+    "yarn",
+    "webpack"
+}
+
+webpack_config "webpack.config.js"

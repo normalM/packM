@@ -1,6 +1,8 @@
 import { Load } from "wasm_exec-ts"
 try {
-    await Load(`${__dirname}/dist/server/go.wasm`)
+    await Load(
+        `${GetResourcePath(GetCurrentResourceName())}/dist/server/go.wasm`
+    )
 } catch (error) {
     console.error(error)
 }

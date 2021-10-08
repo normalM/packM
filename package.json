@@ -4,7 +4,7 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "build": "yarn webpack build --mode=production",
+        "build": "yarn cross-env mode=development webpack build",
         "build:nc": "yarn webpack build --env no-client",
         "build:ns": "yarn webpack build --env no-server",
         "dev": "yarn webpack watch --mode=development",
@@ -20,6 +20,7 @@
         "@citizenfx/server": "^2.0.4748-1",
         "child-process-promise": "^2.2.1",
         "clean-webpack-plugin": "^4.0.0",
+        "cross-env": "^7.0.3",
         "fivem-js": "^1.5.2",
         "javascript-obfuscator": "^2.19.0",
         "ts-loader": "^9.2.6",
@@ -33,10 +34,5 @@
     "devDependencies": {
         "@types/node": "^16.10.2",
         "webpack-cli": "^4.8.0"
-    },
-    "rcon": {
-        "addr": "localhost:30120",
-        "password": "UC1dZ6mN72LFLyElhM",
-        "autorestart": true
     }
 }
