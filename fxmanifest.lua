@@ -17,7 +17,7 @@ games {"gta5"}
 
 dependencies {
     "yarn",
-    "webpack"
+    "packM_builder"
 }
 
-webpack_config "webpack.config.js"
+packm_config "packm.config.js"
