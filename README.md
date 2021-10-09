@@ -10,8 +10,6 @@ cd {project-name}
 code package.json
 # rename name on go.mod to {project-name}
 code go.mod
-yarn
-yarn build
 ```
 
 #### On Server
