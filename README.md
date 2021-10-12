@@ -2,6 +2,7 @@
 
 packM 🧬 is fivem resource compiler for golang ,typescript with the power of golang+typescript compiler+webpack
 
+#### How to
 ```console
 git clone https://github.com/normalM/packM.git {project-name}
 cd {project-name}
@@ -11,7 +12,7 @@ code package.json
 # rename name on go.mod to {project-name}
 code go.mod
 ```
-
+packM require [packM_builder](https://github.com/normalM/packM_builder) for auto build project
 #### On Server
 
 > support golang and typescript
