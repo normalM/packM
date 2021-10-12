@@ -22,7 +22,8 @@ packM require [packM_builder](https://github.com/normalM/packM_builder) for auto
 > support typescript
 >
 > support golang [#gopherjs](https://github.com/gopherjs/gopherjs) (need [docker](https://www.docker.com/products/docker-desktop) to build)
-
+#### On Shared
+> support typescript
 #### Status
 
 > ready for make project
