@@ -33,3 +33,5 @@ packM require [packM_builder](https://github.com/normalM/packM_builder) for auto
 -   [ ] packM-cli is CLI for initialize, compiler project anywhere
 -   [x] [packm.config.js](/packm.config.js) config project in one file
 -   [x] [packM_builder](https://github.com/normalM/packM_builder) fivem resource for auto build packM on file change
+
+Discord [@New Normal City](https://discord.gg/Sagt9MEMq6)
