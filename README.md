@@ -12,7 +12,14 @@ code package.json
 # rename name on go.mod to {project-name}
 code go.mod
 ```
-packM require [packM_builder](https://github.com/normalM/packM_builder) for auto build project
+#### Require
+[golang](https://golang.org/) for build go file
+
+[yarn](https://yarnpkg.com/) package manager for nodejs
+
+[nodejs](https://nodejs.org/) is a JavaScript runtime 
+
+[packM_builder](https://github.com/normalM/packM_builder) for auto build project
 #### On Server
 
 > support golang and typescript
